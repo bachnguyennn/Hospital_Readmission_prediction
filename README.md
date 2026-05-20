@@ -54,11 +54,21 @@ Hospital_Readmission_Prediction/
 
 ---
 
-## Results & Interpretability
+## Results
 
 ### Model Performance
 
-Due to the heavy class imbalance (only ~9% readmission rate), **Area Under the Precision-Recall Curve (AUPRC)** is our primary evaluation metric. Both gradient boosting models significantly outperform the logistic regression baseline.
+Due to the heavy class imbalance (only ~9% readmission rate), **Area Under the Precision-Recall Curve (AUPRC)** is our primary evaluation metric.
+
+- **Best Model:** LightGBM
+- **Test AUPRC Score:** 0.1203
+- **Test AUC-ROC:** 0.6214
+- **Top 5 Features (SHAP):**
+  1. `admission_complexity`
+  2. `prior_admissions`
+  3. `total_medications`
+  4. `num_lab_procedures`
+  5. `time_in_hospital`
 
 | Model | AUPRC | AUROC | F1-Score |
 |---|---|---|---|
@@ -74,7 +84,7 @@ Due to the heavy class imbalance (only ~9% readmission rate), **Area Under the P
 
 We use SHAP (SHapley Additive exPlanations) values to provide clinical transparency, showing exactly *why* the model makes a prediction.
 
-**1. Summary Bar Plot:** Ranks features by their overall average impact.
+**1. Summary Bar Plot:** Ranks the top features by their overall average impact.
 <p align="center">
   <img src="reports/figures/shap_bar_lightgbm.png" alt="SHAP Bar Plot" width="600"/>
 </p>

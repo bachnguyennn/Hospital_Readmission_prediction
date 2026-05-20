@@ -214,7 +214,7 @@ def build_lightgbm(scale_pos_weight: float) -> lgb.LGBMClassifier:
 # ---------------------------------------------------------------------------
 
 def generate_shap_plots(model, X_test: np.ndarray, feature_names: list[str],
-                         label: str, max_display: int = 20) -> None:
+                         label: str, max_display: int = 10) -> None:
     """
     Generate and save SHAP summary (bar) and beeswarm plots.
 
