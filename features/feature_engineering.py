@@ -167,7 +167,19 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 
 def run_feature_engineering(input_path: Path = INPUT_CSV,
                              output_path: Path = OUTPUT_CSV) -> pd.DataFrame:
-    """Load cleaned CSV, engineer features, and save featured.csv."""
+    """
+    Loads the cleaned CSV, engineers new clinical features, and saves the result.
+    
+    Args:
+        input_path (Path): Path to the `cleaned.csv` file.
+        output_path (Path): Path to save the resulting `featured.csv` file.
+
+    Returns:
+        pd.DataFrame: The dataframe enriched with new clinical features.
+        
+    Raises:
+        FileNotFoundError: If the cleaned data CSV is not found.
+    """
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
     if not input_path.exists():
@@ -177,8 +189,18 @@ def run_feature_engineering(input_path: Path = INPUT_CSV,
         )
 
     log.info(f"Loading {input_path}")
-    df = pd.read_csv(input_path)
-    df = engineer_features(df)
+    try:
+        df = pd.read_csv(input_path)
+    except Exception as e:
+        log.error(f"Failed to load cleaned data from {input_path}: {e}")
+        raise e
+
+    try:
+        df = engineer_features(df)
+    except Exception as e:
+        log.error(f"Error during feature engineering: {e}")
+        raise e
+
     df.to_csv(output_path, index=False)
     log.info(f"Saved featured data → {output_path}")
     return df

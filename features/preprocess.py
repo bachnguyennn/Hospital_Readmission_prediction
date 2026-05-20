@@ -81,7 +81,22 @@ def categorize_icd9(code: str | float) -> str:
 
 def run_preprocessing(input_path: Path = RAW_CSV,
                       output_path: Path = OUTPUT_CSV) -> pd.DataFrame:
-    """Full preprocessing pipeline. Returns cleaned DataFrame."""
+    """
+    Executes the full preprocessing pipeline on the raw diabetes dataset.
+    
+    This function handles missing values, removes duplicates, encodes categorical
+    variables, and prepares the dataset for feature engineering.
+
+    Args:
+        input_path (Path): Path to the raw `diabetic_data.csv` file.
+        output_path (Path): Path to save the processed `cleaned.csv` file.
+
+    Returns:
+        pd.DataFrame: The cleaned and preprocessed dataframe.
+        
+    Raises:
+        FileNotFoundError: If the raw data CSV is not found.
+    """
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
     if not input_path.exists():
@@ -91,7 +106,15 @@ def run_preprocessing(input_path: Path = RAW_CSV,
         )
 
     log.info(f"Loading {input_path}")
-    df = pd.read_csv(input_path, na_values=["?"])
+    try:
+        df = pd.read_csv(input_path, na_values=["?"])
+    except pd.errors.EmptyDataError:
+        log.error(f"The file {input_path} is empty.")
+        sys.exit(1)
+    except Exception as e:
+        log.error(f"Failed to read CSV at {input_path}: {e}")
+        sys.exit(1)
+
     log.info(f"Raw shape: {df.shape}")
 
     # --- Dedup (keep first encounter per patient, sorted by encounter_id) ---

@@ -54,6 +54,38 @@ Hospital_Readmission_Prediction/
 
 ---
 
+## Results & Interpretability
+
+### Model Performance
+
+Due to the heavy class imbalance (only ~9% readmission rate), **Area Under the Precision-Recall Curve (AUPRC)** is our primary evaluation metric. Both gradient boosting models significantly outperform the logistic regression baseline.
+
+| Model | AUPRC | AUROC | F1-Score |
+|---|---|---|---|
+| **XGBoost** | 0.1284 | 0.6337 | 0.1684 |
+| **LightGBM** | 0.1203 | 0.6214 | 0.1637 |
+| **Logistic Regression** | 0.1001 | 0.6029 | 0.1499 |
+
+<p align="center">
+  <img src="reports/figures/pr_curve.png" alt="Precision-Recall Curve" width="600"/>
+</p>
+
+### Feature Importance (SHAP)
+
+We use SHAP (SHapley Additive exPlanations) values to provide clinical transparency, showing exactly *why* the model makes a prediction.
+
+**1. Summary Bar Plot:** Ranks features by their overall average impact.
+<p align="center">
+  <img src="reports/figures/shap_bar_lightgbm.png" alt="SHAP Bar Plot" width="600"/>
+</p>
+
+**2. Beeswarm Plot:** Shows the magnitude and direction of the effect. For instance, high values (red) of `admission_complexity` or `prior_admissions` strongly drive up the predicted risk of early readmission.
+<p align="center">
+  <img src="reports/figures/shap_beeswarm_lightgbm.png" alt="SHAP Beeswarm Plot" width="600"/>
+</p>
+
+---
+
 ## Setup & Execution
 
 **1. Create Environment:**
@@ -85,6 +117,8 @@ python models/train_model.py
   ```bash
   jupyter notebook notebook/hospital_readmission_report.ipynb
   ```
+
+
 
 ---
 
