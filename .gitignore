@@ -1,0 +1,51 @@
+# AI agent tooling (never commit)
+.agents/
+skills-lock.json
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Python
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Local secrets (never commit)
+.env
+.env.*
+
+# Raw data
+data/raw/*.csv
+data/raw/*.zip
+!data/raw/.gitkeep
+
+# Processed data
+data/processed/*.csv
+!data/processed/.gitkeep
+
+# Saved models
+models/artifacts/*.joblib
+models/artifacts/*.json
+models/artifacts/*.csv
+!models/artifacts/.gitkeep
+
+# Logs / scratch
+*.log
+*.txt
+!requirements.txt
